@@ -1,0 +1,304 @@
+aid: vanguard-group
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/vanguard-group/refs/heads/main/apis.yml
+name: The Vanguard Group
+description: >-
+  The Vanguard Group is an American investor-owned asset manager headquartered
+  in Malvern, Pennsylvania, and is "the largest provider of mutual funds in the
+  world" and the second-largest exchange-traded fund (ETF) provider after
+  BlackRock's iShares. Vanguard manages approximately $12 trillion in assets as
+  of 2025 and employs roughly 20,000 people (the "crew") as of December 31,
+  2024. The firm was founded on May 1, 1975 by John C. ("Jack") Bogle and is
+  structured as a mutual: "Vanguard is owned by the funds managed by the
+  company and is therefore owned by its customers." Salim Ramji was appointed
+  Chief Executive Officer in July 2024. Vanguard's business spans index and
+  active mutual funds, ETFs, personal advisor services, retirement plan
+  recordkeeping (Vanguard Retirement Plan Services), institutional asset
+  management, fixed income, and a financial-advisor channel served through
+  Vanguard Financial Advisor Services. Vanguard operates across the Americas,
+  Europe, and Asia Pacific. Despite that scale, Vanguard does not publish a
+  public developer API program — there is no public OpenAPI specification, no
+  SDKs, no CLI, no public webhooks, and no Vanguard-published public RSS feed.
+  Investor, advisor, recordkeeping, and distribution-platform integrations are
+  delivered through authentication-gated portals (investor.vanguard.com,
+  advisors.vanguard.com, institutional.vanguard.com), PDF reporting,
+  brokerage/custodian rails, fund-administrator data feeds, and industry
+  recordkeeping interfaces.
+type: Index
+kind: company
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Active Management
+  - Advisor Services
+  - Asset Management
+  - Brokerage
+  - ETFs
+  - Finance
+  - Financial Services
+  - Fixed Income
+  - Index Investing
+  - Institutional Investment
+  - Investment Management
+  - Money Management
+  - Mutual Funds
+  - Personal Advice
+  - Recordkeeping
+  - Retirement
+  - Wealth Management
+created: '2026-05-23'
+modified: '2026-05-23'
+specificationVersion: '0.19'
+apis: []
+common:
+  - type: Website
+    url: https://investor.vanguard.com
+  - type: CorporateWebsite
+    url: https://corporate.vanguard.com
+  - type: GlobalWebsite
+    url: https://global.vanguard.com
+  - type: AdvisorPortal
+    url: https://advisors.vanguard.com
+  - type: InstitutionalPortal
+    url: https://institutional.vanguard.com
+  - type: About
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/who-we-are.html
+  - type: SetsUsApart
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/who-we-are/sets-us-apart.html
+  - type: History
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/who-we-are/our-history.html
+  - type: Leadership
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/who-we-are/leadership-team.html
+  - type: Newsroom
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/news-and-newsroom.html
+  - type: Insights
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/research-and-commentary.html
+  - type: Research
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/research-and-commentary/research.html
+  - type: ResearchCenter
+    url: https://www.vanguard.com/pdf/researchcommentary/researchcenter.html
+  - type: ETFs
+    url: https://investor.vanguard.com/investment-products/etfs
+  - type: MutualFunds
+    url: https://investor.vanguard.com/investment-products/mutual-funds
+  - type: PersonalAdvisor
+    url: https://investor.vanguard.com/advice
+  - type: Retirement
+    url: https://investor.vanguard.com/retirement
+  - type: Brokerage
+    url: https://investor.vanguard.com/investor-resources-education/online-trading
+  - type: Careers
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/careers.html
+  - type: ContactUs
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/contact-us.html
+  - type: PrivacyCenter
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/privacy-center.html
+  - type: TermsOfUse
+    url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/terms-of-use.html
+  - type: SECFilingsParent
+    url: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000102909
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/vanguard
+  - type: X
+    url: https://x.com/vanguard_group
+  - type: Facebook
+    url: https://www.facebook.com/Vanguard
+  - type: YouTube
+    url: https://www.youtube.com/user/Vanguard
+  - type: Instagram
+    url: https://www.instagram.com/vanguard_group
+  - type: GitHub
+    url: https://github.com/Vanguard-Group
+  - type: Ticker
+    name: Vanguard Total Stock Market ETF (NYSEARCA: VTI)
+    url: https://investor.vanguard.com/investment-products/etfs/profile/vti
+  - type: Ticker
+    name: Vanguard S&P 500 ETF (NYSEARCA: VOO)
+    url: https://investor.vanguard.com/investment-products/etfs/profile/voo
+  - type: Ticker
+    name: Vanguard Total International Stock ETF (NASDAQ: VXUS)
+    url: https://investor.vanguard.com/investment-products/etfs/profile/vxus
+  - type: Ticker
+    name: Vanguard Total Bond Market ETF (NASDAQ: BND)
+    url: https://investor.vanguard.com/investment-products/etfs/profile/bnd
+  - type: BusinessLines
+    data:
+      - name: Index Mutual Funds
+        description: >-
+          Vanguard pioneered the retail index mutual fund with the launch of
+          the First Index Investment Trust (now the Vanguard 500 Index Fund) in
+          1976. Index funds remain a flagship product line and the foundation
+          of Vanguard's low-cost, passive investing identity.
+        url: https://investor.vanguard.com/investment-products/mutual-funds
+      - name: Active Mutual Funds
+        description: >-
+          Active equity and fixed-income mutual funds managed in-house and by
+          sub-advisors, including long-running flagships such as Vanguard
+          Wellington and Vanguard Wellesley Income.
+        url: https://investor.vanguard.com/investment-products/mutual-funds
+      - name: ETFs
+        description: >-
+          Vanguard is the second-largest ETF provider globally, after
+          BlackRock's iShares, with a product family that includes core total-
+          market ETFs (VTI, VXUS, BND, BNDX), the Vanguard S&P 500 ETF (VOO),
+          ESG ETFs, short-term ETFs, sector and factor strategies, and active
+          ETFs. "Build a fully diversified portfolio with our 4 total-market
+          ETFs that cover nearly all aspects of the U.S. and international
+          stock and bond markets."
+        url: https://investor.vanguard.com/investment-products/etfs
+      - name: Personal Advisor
+        description: >-
+          Hybrid robo + human-advisor offering for retail investors with
+          tiered services (Vanguard Digital Advisor, Vanguard Personal Advisor,
+          Vanguard Personal Advisor Select, Vanguard Personal Advisor Wealth
+          Management). One of the largest hybrid-advisory platforms by AUM.
+        url: https://investor.vanguard.com/advice
+      - name: Retirement Plan Services
+        description: >-
+          Defined-contribution recordkeeping for plan sponsors (401(k), 403(b),
+          457, defined-benefit administration), plus IRAs and rollover support
+          for individual participants. Distinct from the institutional
+          asset-management business.
+        url: https://institutional.vanguard.com
+      - name: Institutional Asset Management
+        description: >-
+          Asset-management mandates for corporate pensions, endowments,
+          foundations, healthcare systems, insurance general accounts, and
+          sovereigns served through the institutional channel.
+        url: https://institutional.vanguard.com
+      - name: Fixed Income
+        description: >-
+          Large in-house fixed-income franchise spanning municipal bonds,
+          taxable bonds, money market funds, and bond ETFs (BND, BNDX, BSV,
+          BIV, VCIT, VCSH, VTEB, and others).
+        url: https://investor.vanguard.com/investment-products/mutual-funds/bond-funds
+      - name: Brokerage and Trading
+        description: >-
+          Self-directed brokerage account for stocks, ETFs (including
+          non-Vanguard ETFs), mutual funds, options, and fixed income, with
+          Vanguard's online trading platform and the Vanguard mobile app.
+        url: https://investor.vanguard.com/investor-resources-education/online-trading
+      - name: Financial Advisor Services
+        description: >-
+          Vanguard Financial Advisor Services (FAS) serves independent and
+          broker-dealer-affiliated financial advisors who allocate client
+          assets to Vanguard funds and ETFs through the advisors.vanguard.com
+          portal.
+        url: https://advisors.vanguard.com
+  - type: Leadership
+    data:
+      - name: Salim Ramji
+        title: Chief Executive Officer (appointed July 2024)
+      - name: John C. ("Jack") Bogle
+        title: Founder (1929–2019) — founded Vanguard May 1, 1975
+  - type: GlobalPresence
+    data:
+      - region: Americas
+        countries:
+          - Canada
+          - United States
+          - Mexico
+          - US Offshore
+          - South America
+      - region: Europe
+        countries:
+          - Austria
+          - Belgium
+          - Denmark
+          - Finland
+          - France
+          - Germany
+          - Iceland
+          - Ireland
+          - Italy
+          - Liechtenstein
+          - Luxembourg
+          - Netherlands
+          - Norway
+          - Poland
+          - Portugal
+          - Spain
+          - Sweden
+          - Switzerland
+          - United Kingdom
+      - region: Asia Pacific
+        countries:
+          - Australia
+  - type: ScaleMetrics
+    data:
+      - name: Assets Under Management
+        value: "~$12 trillion (as of 2025)"
+      - name: Employees ("Crew")
+        value: "~20,000 (as of December 31, 2024)"
+      - name: Founded
+        value: "May 1, 1975"
+      - name: Founder
+        value: John C. ("Jack") Bogle
+      - name: Headquarters
+        value: Malvern, Pennsylvania, U.S.
+      - name: Structure
+        value: Investor-owned mutual — owned by the Vanguard funds and therefore by fund shareholders
+      - name: ETF Rank
+        value: Second-largest ETF provider globally (after BlackRock's iShares)
+      - name: Mutual Fund Rank
+        value: Largest provider of mutual funds in the world
+  - type: Channels
+    data:
+      - name: Retail Investor Portal
+        description: Self-directed investor portal at investor.vanguard.com for accounts, trading, statements, and tax forms.
+      - name: Advisor Portal
+        description: Vanguard Financial Advisor Services (FAS) portal at advisors.vanguard.com — authenticated access to fund data, research, and trading for RIAs and broker-dealer-affiliated advisors.
+      - name: Institutional Portal
+        description: institutional.vanguard.com for retirement plan sponsors and institutional asset-management clients (DC recordkeeping, plan administration, asset-management mandates).
+      - name: Wealth Distribution Platforms
+        description: Vanguard mutual funds and ETFs are distributed industry-wide through brokerage, custodian, and retirement-plan platforms (Schwab, Fidelity, Pershing, etc.) using standard fund-trading rails (NSCC Fund/SERV, DTCC).
+      - name: Mobile Apps
+        description: Vanguard mobile app for retail account management and trading (iOS and Android).
+  - type: Features
+    data:
+      - name: Quarterly Holdings and Annual Reports
+        description: Fund-level reports (annual, semi-annual, summary prospectus, statement of additional information) published through the corporate site and SEC EDGAR.
+      - name: SEC EDGAR Filings
+        description: 13F-HR, N-PORT, N-CSR, N-CEN, N-PX, prospectuses, and other regulatory filings available via SEC EDGAR.
+      - name: Press Releases and Newsroom
+        description: News, press releases, and corporate communications published on the corporate site; no public RSS feed observed.
+      - name: Research and Commentary
+        description: Vanguard Research Center publishes whitepapers on indexing, advice, retirement, and capital-market forecasts (Vanguard Capital Markets Model, VCMM).
+      - name: Personal Advisor Tools
+        description: Authenticated retirement and goals planning tools for Personal Advisor clients (digital, hybrid, and wealth-management tiers).
+  - type: PeerProviders
+    data:
+      - name: BlackRock / iShares
+        description: Largest global asset manager and #1 ETF provider; primary competitor to Vanguard in index / ETF and institutional asset management.
+      - name: State Street Global Advisors (SPDR)
+        description: Third-largest ETF provider and major institutional asset manager.
+      - name: Fidelity Investments
+        description: Mutual-fund and brokerage competitor (also a Vanguard recordkeeping rival in DC plans).
+      - name: Charles Schwab
+        description: Brokerage, advisor custodian, and low-cost index/ETF competitor.
+      - name: J.P. Morgan Asset Management, Invesco, T. Rowe Price, Capital Group
+        description: Mutual-fund and ETF competitors across active and index strategies.
+  - type: Absences
+    data:
+      - name: No Public Developer API
+        description: Vanguard does not publish a public REST/GraphQL/OpenAPI developer API for retail investors, advisors, recordkeeping participants, or institutional clients. All programmatic interaction runs through authentication-gated portals or industry rails (NSCC/DTCC, Fund/SERV).
+      - name: No Public Developer Portal
+        description: There is no developer.vanguard.com / developers.vanguard.com / api.vanguard.com surface. The investor and advisor portals are end-user UIs, not developer-facing API consoles.
+      - name: No Public OpenAPI / AsyncAPI Specs
+        description: No OpenAPI 3.x or AsyncAPI specifications are published by Vanguard for any of its retail, advisor, institutional, or recordkeeping surfaces.
+      - name: No Public SDKs or CLI
+        description: Vanguard publishes no language SDKs (no JavaScript, Python, Java, .NET, Go, or other client libraries) and no command-line interface.
+      - name: No Public Webhooks or Event Bus
+        description: All investor, advisor, and plan-participant notifications are delivered via email or in-portal messaging; there is no documented webhook / push-API or public event bus.
+      - name: No Public RSS or Atom Feeds
+        description: Newsroom, research, and insights pages are HTML / PDF only; no `feed.xml` or Atom feed was discovered on the corporate or investor sites.
+      - name: No Public GitHub Engineering Surface
+        description: A `github.com/Vanguard-Group` organization was created on 2026-03-25 but currently exposes zero public repositories and zero public members. No public OpenAPI specs, SDKs, CLIs, or tools are published. Vanguard engineering operates privately.
+      - name: No Public Pricing API
+        description: Fund expense ratios, advisory tiers, and brokerage commissions are published as HTML on the investor site; there is no machine-readable pricing API or rate-card endpoint.
+      - name: No Public Status Page
+        description: No status.vanguard.com / trust.vanguard.com style public status page or incident feed is published; outages are communicated via in-portal banners and customer service channels.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
