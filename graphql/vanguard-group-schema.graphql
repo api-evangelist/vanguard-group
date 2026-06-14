@@ -1,0 +1,800 @@
+"""
+Vanguard Group — Conceptual GraphQL Schema
+
+No public GraphQL API exists. This schema models Vanguard's investment data
+domain based on publicly available fund documentation, SEC regulatory filings
+(N-PORT, 13F-HR, N-CSR), the investor/advisor/institutional portal surfaces,
+and standard asset-management data conventions.
+
+Sources:
+  - https://investor.vanguard.com
+  - https://advisors.vanguard.com
+  - https://institutional.vanguard.com
+  - https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000102909
+"""
+
+# ---------------------------------------------------------------------------
+# Scalars
+# ---------------------------------------------------------------------------
+
+scalar Date
+scalar DateTime
+scalar Decimal
+scalar CUSIP
+scalar ISIN
+scalar Ticker
+
+# ---------------------------------------------------------------------------
+# Enums
+# ---------------------------------------------------------------------------
+
+enum AssetClass {
+  EQUITY
+  FIXED_INCOME
+  MONEY_MARKET
+  MULTI_ASSET
+  ALTERNATIVE
+  REAL_ESTATE
+}
+
+enum FundType {
+  MUTUAL_FUND
+  ETF
+  MONEY_MARKET_FUND
+  VARIABLE_ANNUITY_FUND
+}
+
+enum ManagementStyle {
+  INDEX
+  ACTIVE
+  FACTOR
+  ESG
+}
+
+enum AccountType {
+  BROKERAGE
+  TRADITIONAL_IRA
+  ROTH_IRA
+  SEP_IRA
+  SIMPLE_IRA
+  SOLO_401K
+  ROLLOVER_IRA
+  CUSTODIAL
+  TRUST
+  PLAN_401K
+  PLAN_403B
+  PLAN_457
+  DEFINED_BENEFIT
+}
+
+enum OrderType {
+  MARKET
+  LIMIT
+  STOP
+  STOP_LIMIT
+}
+
+enum OrderSide {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  OPEN
+  PARTIALLY_FILLED
+  FILLED
+  CANCELLED
+  REJECTED
+  EXPIRED
+}
+
+enum TransactionType {
+  PURCHASE
+  REDEMPTION
+  EXCHANGE_IN
+  EXCHANGE_OUT
+  DIVIDEND_REINVESTMENT
+  DIVIDEND_CASH
+  CAPITAL_GAIN_SHORT
+  CAPITAL_GAIN_LONG
+  TRANSFER_IN
+  TRANSFER_OUT
+  FEE
+  TAX_WITHHOLDING
+}
+
+enum DistributionType {
+  ORDINARY_DIVIDEND
+  QUALIFIED_DIVIDEND
+  SHORT_TERM_CAPITAL_GAIN
+  LONG_TERM_CAPITAL_GAIN
+  RETURN_OF_CAPITAL
+  FOREIGN_TAX_PAID
+}
+
+enum RiskCategory {
+  CONSERVATIVE
+  MODERATE_CONSERVATIVE
+  MODERATE
+  MODERATE_AGGRESSIVE
+  AGGRESSIVE
+}
+
+enum RebalanceFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  ANNUALLY
+  THRESHOLD_BASED
+}
+
+# ---------------------------------------------------------------------------
+# Types
+# ---------------------------------------------------------------------------
+
+"""
+A Vanguard investment fund — either a mutual fund or ETF.
+"""
+type Fund {
+  id: ID!
+  ticker: Ticker!
+  cusip: CUSIP
+  isin: ISIN
+  name: String!
+  shortName: String
+  fundType: FundType!
+  managementStyle: ManagementStyle!
+  assetClass: AssetClass!
+  inceptionDate: Date!
+  description: String
+
+  """Current net asset value per share."""
+  nav: Price
+
+  """NAV history over a date range."""
+  navHistory(startDate: Date!, endDate: Date!): [NavHistory!]!
+
+  """Annualized expense ratio as a decimal (e.g. 0.0003 for 0.03%)."""
+  expenseRatio: ExpenseRatio
+
+  """Total assets under management in USD."""
+  totalAssetsUsd: Decimal
+
+  """Number of shares outstanding."""
+  sharesOutstanding: Decimal
+
+  """Latest intraday or closing quote (ETFs only)."""
+  quote: Quote
+
+  """Benchmark index tracked or compared against."""
+  benchmark: Benchmark
+
+  """Performance returns for standard periods."""
+  performance: [PerformanceReturn!]!
+
+  """Trailing 12-month yield."""
+  ttmYield: Decimal
+
+  """30-day SEC yield."""
+  secYield30Day: Decimal
+
+  """Portfolio holdings (top holdings or full N-PORT disclosure)."""
+  holdings: [Holding!]!
+
+  """Asset allocation breakdown."""
+  allocation: [Allocation!]!
+
+  """Distribution history."""
+  distributions: [Distribution!]!
+
+  """Risk metrics for this fund."""
+  riskMetrics: RiskMetric
+
+  """Minimum initial investment in USD (mutual funds)."""
+  minimumInitialInvestmentUsd: Decimal
+
+  """Minimum subsequent investment in USD (mutual funds)."""
+  minimumSubsequentInvestmentUsd: Decimal
+
+  """Whether the fund is currently open to new investors."""
+  openToNewInvestors: Boolean!
+
+  """Prospectus and legal documents."""
+  documents: [FundDocument!]!
+}
+
+"""
+An exchange-traded fund. Extends Fund with intraday trading properties.
+"""
+type ETF {
+  id: ID!
+  ticker: Ticker!
+  cusip: CUSIP
+  isin: ISIN
+  name: String!
+  shortName: String
+  managementStyle: ManagementStyle!
+  assetClass: AssetClass!
+  inceptionDate: Date!
+  description: String
+  nav: Price
+  navHistory(startDate: Date!, endDate: Date!): [NavHistory!]!
+  expenseRatio: ExpenseRatio
+  totalAssetsUsd: Decimal
+  sharesOutstanding: Decimal
+  quote: Quote
+  benchmark: Benchmark
+  performance: [PerformanceReturn!]!
+  ttmYield: Decimal
+  secYield30Day: Decimal
+  holdings: [Holding!]!
+  allocation: [Allocation!]!
+  distributions: [Distribution!]!
+  riskMetrics: RiskMetric
+  documents: [FundDocument!]!
+
+  """Indicative intraday NAV (iNAV/IIV)."""
+  inav: Decimal
+
+  """Average daily trading volume (shares)."""
+  avgDailyVolumeShares: Decimal
+
+  """30-day median bid/ask spread."""
+  medianBidAskSpread30Day: Decimal
+
+  """Premium/discount to NAV as a percentage."""
+  premiumDiscountPct: Decimal
+
+  """Premium/discount history."""
+  premiumDiscountHistory(startDate: Date!, endDate: Date!): [PremiumDiscount!]!
+}
+
+"""
+A Vanguard open-end mutual fund.
+"""
+type MutualFund {
+  id: ID!
+  ticker: Ticker!
+  cusip: CUSIP
+  name: String!
+  shortName: String
+  managementStyle: ManagementStyle!
+  assetClass: AssetClass!
+  inceptionDate: Date!
+  description: String
+  nav: Price
+  navHistory(startDate: Date!, endDate: Date!): [NavHistory!]!
+  expenseRatio: ExpenseRatio
+  totalAssetsUsd: Decimal
+  sharesOutstanding: Decimal
+  benchmark: Benchmark
+  performance: [PerformanceReturn!]!
+  ttmYield: Decimal
+  secYield30Day: Decimal
+  holdings: [Holding!]!
+  allocation: [Allocation!]!
+  distributions: [Distribution!]!
+  riskMetrics: RiskMetric
+  minimumInitialInvestmentUsd: Decimal
+  minimumSubsequentInvestmentUsd: Decimal
+  openToNewInvestors: Boolean!
+  documents: [FundDocument!]!
+
+  """Admiral Shares minimum (if applicable)."""
+  admiralSharesMinimumUsd: Decimal
+
+  """Investor Shares ticker (if Admiral/Investor share classes exist)."""
+  investorSharesTicker: Ticker
+}
+
+"""
+Current or most-recent price for a fund or security.
+"""
+type Price {
+  value: Decimal!
+  currency: String!
+  asOf: DateTime!
+  changeAmount: Decimal
+  changePct: Decimal
+}
+
+"""
+Intraday market quote for an ETF or individual security.
+"""
+type Quote {
+  ticker: Ticker!
+  bid: Decimal
+  ask: Decimal
+  last: Decimal
+  open: Decimal
+  high: Decimal
+  low: Decimal
+  previousClose: Decimal
+  volume: Decimal
+  marketCap: Decimal
+  currency: String!
+  asOf: DateTime!
+}
+
+"""
+Historical NAV data point.
+"""
+type NavHistory {
+  date: Date!
+  nav: Decimal!
+  currency: String!
+}
+
+"""
+ETF premium or discount to NAV on a given date.
+"""
+type PremiumDiscount {
+  date: Date!
+  premiumDiscountPct: Decimal!
+}
+
+"""
+Fund expense ratio details.
+"""
+type ExpenseRatio {
+  grossPct: Decimal!
+  netPct: Decimal!
+  waiverExpiration: Date
+  asOf: Date!
+}
+
+"""
+A single security or position held within a fund's portfolio.
+"""
+type Holding {
+  cusip: CUSIP
+  isin: ISIN
+  ticker: Ticker
+  name: String!
+  assetClass: AssetClass!
+  country: String
+  sector: String
+  weightPct: Decimal!
+  marketValueUsd: Decimal
+  shares: Decimal
+  coupon: Decimal
+  maturityDate: Date
+  creditRating: String
+  asOf: Date!
+}
+
+"""
+Asset allocation breakdown for a fund or portfolio.
+"""
+type Allocation {
+  category: String!
+  weightPct: Decimal!
+  marketValueUsd: Decimal
+}
+
+"""
+A benchmark index used for performance comparison.
+"""
+type Benchmark {
+  id: ID!
+  name: String!
+  ticker: Ticker
+  provider: String
+  description: String
+  performance: [PerformanceReturn!]!
+}
+
+"""
+Performance return for a standard measurement period.
+"""
+type PerformanceReturn {
+  period: String!
+  returnPct: Decimal!
+  benchmarkReturnPct: Decimal
+  asOf: Date!
+  isAnnualized: Boolean!
+}
+
+"""
+A fund distribution event (dividend, capital gain, etc.).
+"""
+type Distribution {
+  recordDate: Date!
+  exDividendDate: Date!
+  payableDate: Date!
+  distributionType: DistributionType!
+  amountPerShare: Decimal!
+  currency: String!
+  reinvestmentNav: Decimal
+}
+
+"""
+Dividend payment on an individual security or account-level.
+"""
+type Dividend {
+  securityId: ID!
+  securityName: String!
+  exDate: Date!
+  payDate: Date!
+  amountPerShare: Decimal!
+  currency: String!
+  qualified: Boolean
+}
+
+"""
+Risk metrics for a fund or portfolio.
+"""
+type RiskMetric {
+  period: String!
+  standardDeviationPct: Decimal
+  sharpeRatio: Decimal
+  beta: Decimal
+  alpha: Decimal
+  rSquared: Decimal
+  captureRatioUp: Decimal
+  captureRatioDown: Decimal
+  maxDrawdownPct: Decimal
+  asOf: Date!
+}
+
+"""
+Performance comparison against a benchmark.
+"""
+type BenchmarkComparison {
+  period: String!
+  fundReturnPct: Decimal!
+  benchmarkReturnPct: Decimal!
+  excessReturnPct: Decimal!
+  trackingErrorPct: Decimal
+  informationRatio: Decimal
+  asOf: Date!
+}
+
+"""
+Legal and regulatory document associated with a fund.
+"""
+type FundDocument {
+  type: String!
+  title: String!
+  url: String!
+  publishedDate: Date
+}
+
+# ---------------------------------------------------------------------------
+# Account and Portfolio Types
+# ---------------------------------------------------------------------------
+
+"""
+An investor account at Vanguard (brokerage, IRA, retirement plan, etc.).
+"""
+type Account {
+  id: ID!
+  accountNumber: String!
+  accountType: AccountType!
+  displayName: String
+  owner: Investor
+  advisor: Advisor
+  totalValueUsd: Decimal!
+  costBasisUsd: Decimal
+  unrealizedGainLossUsd: Decimal
+  unrealizedGainLossPct: Decimal
+  dayChangePct: Decimal
+  currency: String!
+  openedDate: Date!
+  positions: [Position!]!
+  transactions(startDate: Date, endDate: Date, limit: Int, offset: Int): TransactionPage!
+  orders(status: OrderStatus): [Order!]!
+  dividends(startDate: Date, endDate: Date): [Dividend!]!
+}
+
+"""
+A portfolio — a named collection of accounts or positions, including
+Personal Advisor managed portfolios.
+"""
+type Portfolio {
+  id: ID!
+  name: String!
+  owner: Investor
+  advisor: Advisor
+  riskCategory: RiskCategory
+  targetAllocation: [Allocation!]!
+  actualAllocation: [Allocation!]!
+  totalValueUsd: Decimal!
+  costBasisUsd: Decimal
+  unrealizedGainLossUsd: Decimal
+  dayChangePct: Decimal
+  accounts: [Account!]!
+  positions: [Position!]!
+  performance: [PerformanceReturn!]!
+  riskMetrics: RiskMetric
+  rebalanceFrequency: RebalanceFrequency
+  lastRebalancedDate: Date
+  nextRebalanceDate: Date
+}
+
+"""
+A position in a single fund or security within an account or portfolio.
+"""
+type Position {
+  id: ID!
+  fund: Fund
+  etf: ETF
+  securityName: String!
+  ticker: Ticker
+  shares: Decimal!
+  averageCostBasisPerShare: Decimal
+  totalCostBasisUsd: Decimal
+  currentValueUsd: Decimal!
+  unrealizedGainLossUsd: Decimal
+  unrealizedGainLossPct: Decimal
+  percentOfPortfolio: Decimal
+  lots: [TaxLot!]!
+}
+
+"""
+An individual tax lot within a position.
+"""
+type TaxLot {
+  lotId: ID!
+  acquiredDate: Date!
+  shares: Decimal!
+  costBasisPerShare: Decimal!
+  totalCostBasisUsd: Decimal!
+  currentValueUsd: Decimal!
+  unrealizedGainLossUsd: Decimal!
+  isLongTerm: Boolean!
+}
+
+"""
+A brokerage or mutual fund order.
+"""
+type Order {
+  id: ID!
+  account: Account!
+  ticker: Ticker
+  fundName: String
+  orderType: OrderType!
+  side: OrderSide!
+  status: OrderStatus!
+  requestedShares: Decimal
+  requestedAmountUsd: Decimal
+  filledShares: Decimal
+  averageFillPrice: Decimal
+  limitPrice: Decimal
+  stopPrice: Decimal
+  placedAt: DateTime!
+  updatedAt: DateTime!
+  settledDate: Date
+}
+
+"""
+A completed financial transaction within an account.
+"""
+type Transaction {
+  id: ID!
+  account: Account!
+  transactionType: TransactionType!
+  ticker: Ticker
+  fundName: String
+  shares: Decimal
+  pricePerShare: Decimal
+  grossAmountUsd: Decimal!
+  feesUsd: Decimal
+  netAmountUsd: Decimal!
+  tradeDate: Date!
+  settlementDate: Date
+  description: String
+}
+
+"""
+Paginated transaction results.
+"""
+type TransactionPage {
+  items: [Transaction!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+  offset: Int!
+  limit: Int!
+}
+
+# ---------------------------------------------------------------------------
+# Investor and Advisor Types
+# ---------------------------------------------------------------------------
+
+"""
+A Vanguard retail investor.
+"""
+type Investor {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String
+  accounts: [Account!]!
+  portfolios: [Portfolio!]!
+  advisor: Advisor
+  totalAssetsUsd: Decimal!
+}
+
+"""
+A financial advisor with access to Vanguard Financial Advisor Services (FAS).
+"""
+type Advisor {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  firmName: String
+  crdNumber: String
+  email: String
+  clients: [Investor!]!
+  managedAccounts: [Account!]!
+  managedPortfolios: [Portfolio!]!
+  totalAumUsd: Decimal
+}
+
+# ---------------------------------------------------------------------------
+# Asset Type
+# ---------------------------------------------------------------------------
+
+"""
+A generic investable asset (used for cross-asset search results).
+"""
+type Asset {
+  id: ID!
+  ticker: Ticker
+  cusip: CUSIP
+  isin: ISIN
+  name: String!
+  assetClass: AssetClass!
+  fundType: FundType
+  expenseRatioPct: Decimal
+  totalAssetsUsd: Decimal
+  nav: Price
+  quote: Quote
+  performance: [PerformanceReturn!]!
+}
+
+# ---------------------------------------------------------------------------
+# Query
+# ---------------------------------------------------------------------------
+
+type Query {
+  """Look up a fund (mutual fund or ETF) by ticker symbol."""
+  fund(ticker: Ticker!): Fund
+
+  """Look up an ETF by ticker symbol."""
+  etf(ticker: Ticker!): ETF
+
+  """Look up a mutual fund by ticker symbol."""
+  mutualFund(ticker: Ticker!): MutualFund
+
+  """Search across all Vanguard funds and ETFs."""
+  searchFunds(
+    query: String
+    assetClass: AssetClass
+    fundType: FundType
+    managementStyle: ManagementStyle
+    maxExpenseRatioPct: Decimal
+    limit: Int
+    offset: Int
+  ): [Fund!]!
+
+  """List all Vanguard ETFs."""
+  etfs(
+    assetClass: AssetClass
+    managementStyle: ManagementStyle
+    limit: Int
+    offset: Int
+  ): [ETF!]!
+
+  """List all Vanguard mutual funds."""
+  mutualFunds(
+    assetClass: AssetClass
+    managementStyle: ManagementStyle
+    limit: Int
+    offset: Int
+  ): [MutualFund!]!
+
+  """Get a current quote for an ETF or individual security."""
+  quote(ticker: Ticker!): Quote
+
+  """Get NAV history for a fund."""
+  navHistory(ticker: Ticker!, startDate: Date!, endDate: Date!): [NavHistory!]!
+
+  """Get an investor account by ID (authenticated)."""
+  account(id: ID!): Account
+
+  """List all accounts for the authenticated investor."""
+  myAccounts: [Account!]!
+
+  """Get a portfolio by ID (authenticated)."""
+  portfolio(id: ID!): Portfolio
+
+  """List all portfolios for the authenticated investor or advisor."""
+  myPortfolios: [Portfolio!]!
+
+  """Get a position within an account."""
+  position(accountId: ID!, positionId: ID!): Position
+
+  """Get a specific order."""
+  order(id: ID!): Order
+
+  """Get a benchmark by ID."""
+  benchmark(id: ID!): Benchmark
+
+  """Compare a fund's performance against its benchmark."""
+  benchmarkComparison(
+    ticker: Ticker!
+    period: String!
+  ): BenchmarkComparison
+
+  """Get an investor profile (authenticated)."""
+  myProfile: Investor
+
+  """Get an advisor profile (authenticated, advisor role)."""
+  myAdvisorProfile: Advisor
+
+  """List clients for the authenticated advisor."""
+  myClients(limit: Int, offset: Int): [Investor!]!
+
+  """Search for any investable asset across Vanguard's catalog."""
+  searchAssets(
+    query: String!
+    assetClass: AssetClass
+    limit: Int
+  ): [Asset!]!
+}
+
+# ---------------------------------------------------------------------------
+# Mutation
+# ---------------------------------------------------------------------------
+
+type Mutation {
+  """Place a buy or sell order (authenticated)."""
+  placeOrder(
+    accountId: ID!
+    ticker: Ticker!
+    side: OrderSide!
+    orderType: OrderType!
+    shares: Decimal
+    amountUsd: Decimal
+    limitPrice: Decimal
+    stopPrice: Decimal
+  ): Order!
+
+  """Cancel an open order (authenticated)."""
+  cancelOrder(orderId: ID!): Order!
+
+  """Trigger a portfolio rebalance (authenticated, advisor/digital-advisor)."""
+  rebalancePortfolio(portfolioId: ID!): Portfolio!
+
+  """Update target allocation for a managed portfolio (authenticated)."""
+  updateTargetAllocation(
+    portfolioId: ID!
+    allocations: [AllocationInput!]!
+  ): Portfolio!
+}
+
+"""
+Input type for updating a portfolio allocation.
+"""
+input AllocationInput {
+  ticker: Ticker!
+  weightPct: Decimal!
+}
+
+# ---------------------------------------------------------------------------
+# Subscription
+# ---------------------------------------------------------------------------
+
+type Subscription {
+  """Stream real-time ETF price quotes (authenticated)."""
+  quoteUpdated(ticker: Ticker!): Quote!
+
+  """Stream order status changes (authenticated)."""
+  orderStatusChanged(orderId: ID!): Order!
+
+  """Stream NAV updates as they are struck (authenticated)."""
+  navUpdated(ticker: Ticker!): NavHistory!
+}

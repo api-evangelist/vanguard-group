@@ -111,16 +111,16 @@ common:
   - type: GitHub
     url: https://github.com/Vanguard-Group
   - type: Ticker
-    name: Vanguard Total Stock Market ETF (NYSEARCA: VTI)
+    name: 'Vanguard Total Stock Market ETF (NYSEARCA: VTI)'
     url: https://investor.vanguard.com/investment-products/etfs/profile/vti
   - type: Ticker
-    name: Vanguard S&P 500 ETF (NYSEARCA: VOO)
+    name: 'Vanguard S&P 500 ETF (NYSEARCA: VOO)'
     url: https://investor.vanguard.com/investment-products/etfs/profile/voo
   - type: Ticker
-    name: Vanguard Total International Stock ETF (NASDAQ: VXUS)
+    name: 'Vanguard Total International Stock ETF (NASDAQ: VXUS)'
     url: https://investor.vanguard.com/investment-products/etfs/profile/vxus
   - type: Ticker
-    name: Vanguard Total Bond Market ETF (NASDAQ: BND)
+    name: 'Vanguard Total Bond Market ETF (NASDAQ: BND)'
     url: https://investor.vanguard.com/investment-products/etfs/profile/bnd
   - type: BusinessLines
     data:
@@ -299,6 +299,8 @@ common:
         description: Fund expense ratios, advisory tiers, and brokerage commissions are published as HTML on the investor site; there is no machine-readable pricing API or rate-card endpoint.
       - name: No Public Status Page
         description: No status.vanguard.com / trust.vanguard.com style public status page or incident feed is published; outages are communicated via in-portal banners and customer service channels.
+  - type: GraphQL
+    url: graphql/vanguard-group-graphql.md
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
