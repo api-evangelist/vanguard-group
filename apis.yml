@@ -54,7 +54,7 @@ apis: []
 common:
   - type: Website
     url: https://investor.vanguard.com
-  - type: CorporateWebsite
+  - type: Website
     url: https://corporate.vanguard.com
   - type: GlobalWebsite
     url: https://global.vanguard.com
@@ -94,7 +94,7 @@ common:
     url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/contact-us.html
   - type: PrivacyCenter
     url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/privacy-center.html
-  - type: TermsOfUse
+  - type: TermsOfService
     url: https://corporate.vanguard.com/content/corporatesite/us/en/corp/terms-of-use.html
   - type: SECFilingsParent
     url: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000102909
