@@ -58,7 +58,7 @@ tags:
   - Brokerage
   - ETFs
   - Finance
-  - Financial-Services
+  - Financial Services
   - Fixed Income
   - Index Investing
   - Institutional Investment
@@ -87,6 +87,7 @@ tags_raw:
   - Recordkeeping
   - Retirement
   - Wealth Management
+  - Financial-Services
 created: '2026-05-23'
 modified: '2026-05-23'
 specificationVersion: '0.23'
@@ -341,8 +342,6 @@ common:
         description: Fund expense ratios, advisory tiers, and brokerage commissions are published as HTML on the investor site; there is no machine-readable pricing API or rate-card endpoint.
       - name: No Public Status Page
         description: No status.vanguard.com / trust.vanguard.com style public status page or incident feed is published; outages are communicated via in-portal banners and customer service channels.
-  - type: GraphQL
-    url: graphql/vanguard-group-graphql.md
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
